@@ -14,6 +14,7 @@ void sub_moji_tab(char *);
 void sub_kbd_print(char *);
 void sub_kbd_strok(uint8_t);
 void sub_kbd_preURL(void);
+void sub_kbd_tabClose(void);
 void sub_kbd_withmodifire(char, char);
 void sub_kbd_toCommandF();
 

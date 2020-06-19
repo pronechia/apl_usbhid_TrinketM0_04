@@ -64,6 +64,21 @@ void sub_kbd_preURL() {
     sub_kbd_withmodifire(KEY_LEFT_GUI, 't');
   }
 }
+//
+//終了する前にタブを閉じる
+void sub_kbd_tabClose() {
+
+  if (g_keyboard_OSType == 1) {
+    //Windows用
+    //ctrl + w
+    sub_kbd_withmodifire(KEY_LEFT_CTRL, 'w');
+  } else {
+    //Mac用
+    // リンゴGUI + w
+    sub_kbd_withmodifire(KEY_LEFT_GUI, 'w');
+  }
+}
+
 //一文字のキーコード出力　修飾キー付き
 //#define KEY_LEFT_CTRL   0x80
 //#define KEY_LEFT_SHIFT    0x81

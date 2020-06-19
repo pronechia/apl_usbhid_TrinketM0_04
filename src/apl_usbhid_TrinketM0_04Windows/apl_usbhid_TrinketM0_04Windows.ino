@@ -1,5 +1,6 @@
 /*
- *公開第四回）radiko操作 2020/06/12
+ *公開第四回）radiko操作 2020/06/19
+ * radiko OFF時にTabを閉じるが、Windows/Edge の場合は閉じることができない
  */
 // WindowsPC用
 #define USBHOST_WINPC
@@ -78,8 +79,8 @@ void setup(){
 //main loop
 //
 void loop(){
-  // 20x2=40msec毎に処理を行う
-  if (sub_fw_event(2)) sub_proc();
+  // 20x1=20msec毎に処理を行う
+  if (sub_fw_event(1)) sub_proc();
 }
 //
 //USB/HID処理
@@ -90,7 +91,7 @@ void sub_proc() {
   //待ち時間がゼロになるまで何もしない。
   if (g_pass-- >= 0 ) return;
 
-  if (sub_fw_SWcheck(0, SW_PIN) == 1) {
+  if (sub_fw_SWcheck(0, SW_PIN) == 2) {
     if (g_radio_on) {
       //Enterを出して止める
       sub_apl_key2();
@@ -133,7 +134,7 @@ void sub_initurl() {
   sub_kbd_strok(KEY_RETURN);
   //
   delay(WCS_DELAY_GAMEN); //画面が表示されるまで、十分の時間待つ
-  //delay(WCS_DELAY_GAMEN); //少し余分に待つ
+  delay(WCS_DELAY_GAMEN); //少し余分に待つ
 }
 //アプリ用の手順にしたがってキーコードを出力する
 void sub_apl_key() {
@@ -149,8 +150,13 @@ void sub_apl_key() {
 }
 //アプリ用の手順2にしたがってキーコードを出力する
 void sub_apl_key2() {
+
+  //ボタンを押す
   sub_kbd_strok(KEY_RETURN);
   delay(WCS_DELAY_T1);  
+  //タブを閉じる
+  sub_kbd_tabClose();
+
 }
 //タイマー割込み関数
 void sub_timer_callback() {
@@ -206,7 +212,7 @@ uint8_t sub_fw_SWcheck(uint8_t p_number, uint8_t p_swpin) {
   }
   //ONからOFFを検知する。
   if ((s_pre_sw[p_number] == 0) && (w_sw == 1)) {
-    s_first_sw[p_number] = 3;
+    s_first_sw[p_number] = 2;
   }
   s_pre_sw[p_number] = w_sw;  //次回のために
   return 0;
