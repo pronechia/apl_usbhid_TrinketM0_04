@@ -104,7 +104,7 @@ void sub_proc() {
       if (g_I2CNormal) myLCD.printStrC1("Chan.ON ");
     }
     g_radio_on = !g_radio_on;
-  } else if (sub_fw_SWcheck(1, SW2_PIN) == 1) {
+  } else if (sub_fw_SWcheck(1, SW2_PIN) == 2) {
     //channel 切替
     if (g_channel>1) g_channel = 0;
     else g_channel++;
